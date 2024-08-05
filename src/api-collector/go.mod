@@ -4,7 +4,7 @@ go 1.21.6
 
 require (
 	github.com/google/go-github/v61 v61.0.0
-	golang.org/x/oauth2 v0.21.0
+	golang.org/x/oauth2 v0.22.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
