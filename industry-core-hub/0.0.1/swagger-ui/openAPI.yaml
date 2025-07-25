@@ -23,13 +23,13 @@ info:
   title: Industry Core Hub Backend API
   version: 0.0.1
 paths:
-  '/part-management/catalog-part/{manufacturer_id}/{manufacturer_part_id}':
+  '/part-management/catalog-part/{manufacturer_id}/manufacturerPartId':
     get:
       tags:
         - Part Management
-      summary: Part Management Get Catalog Part
+      summary: Part Management Get Catalog Part Details
       operationId: >-
-        part_management_get_catalog_part_part_management_catalog_part__manufacturer_id___manufacturer_part_id__get
+        part_management_get_catalog_part_details_part_management_catalog_part__manufacturer_id__manufacturerPartId_get
       parameters:
         - name: manufacturer_id
           in: path
@@ -38,7 +38,7 @@ paths:
             type: string
             title: Manufacturer Id
         - name: manufacturer_part_id
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -49,13 +49,51 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CatalogPartReadWithStatus'
+                $ref: '#/components/schemas/CatalogPartDetailsReadWithStatus'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   /part-management/catalog-part:
     get:
       tags:
@@ -69,11 +107,55 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/SimpleCatalogPartReadWithStatus'
+                  $ref: '#/components/schemas/CatalogPartReadWithStatus'
                 type: array
                 title: >-
                   Response Part Management Get Catalog Parts Part Management
                   Catalog Part Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
     post:
       tags:
         - Part Management
@@ -91,13 +173,309 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CatalogPartReadWithStatus'
+                $ref: '#/components/schemas/CatalogPartDetailsReadWithStatus'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /part-management/catalog-part/create-partner-mapping:
+    post:
+      tags:
+        - Part Management
+      summary: Part Management Create Partner Mapping
+      operationId: >-
+        part_management_create_partner_mapping_part_management_catalog_part_create_partner_mapping_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnerCatalogPartCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerCatalogPartRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /part-management/serialized-part:
+    get:
+      tags:
+        - Part Management
+      summary: Part Management Get Serialized Parts
+      operationId: part_management_get_serialized_parts_part_management_serialized_part_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SerializedPartRead'
+                type: array
+                title: >-
+                  Response Part Management Get Serialized Parts Part Management
+                  Serialized Part Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+    post:
+      tags:
+        - Part Management
+      summary: Part Management Create Serialized Part
+      operationId: >-
+        part_management_create_serialized_part_part_management_serialized_part_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedPartCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SerializedPartRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /part-management/serialized-part/query:
+    post:
+      tags:
+        - Part Management
+      summary: Part Management Query Serialized Parts
+      operationId: >-
+        part_management_query_serialized_parts_part_management_serialized_part_query_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedPartQuery'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/SerializedPartRead'
+                type: array
+                title: >-
+                  Response Part Management Query Serialized Parts Part
+                  Management Serialized Part Query Post
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   /partner-management/business-partner:
     get:
       tags:
@@ -117,6 +495,50 @@ paths:
                 title: >-
                   Response Partner Management Get Business Partners Partner
                   Management Business Partner Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
     post:
       tags:
         - Partner Management
@@ -136,12 +558,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BusinessPartnerRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/partner-management/business-partner/{business_partner_number}':
     get:
       tags:
@@ -168,12 +628,50 @@ paths:
                 title: >-
                   Response Partner Management Get Business Partner Partner
                   Management Business Partner  Business Partner Number  Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/partner-management/business-partner/{business_partner_number}/data-exchange-agreement':
     get:
       tags:
@@ -201,12 +699,50 @@ paths:
                   Response Partner Management Get Data Exchange Agreements
                   Partner Management Business Partner  Business Partner Number 
                   Data Exchange Agreement Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   /twin-management/catalog-part-twin:
     get:
       tags:
@@ -234,18 +770,68 @@ paths:
                 title: >-
                   Response Twin Management Get Catalog Part Twins Twin
                   Management Catalog Part Twin Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
     post:
       tags:
         - Twin Management
       summary: Twin Management Create Catalog Part Twin
       operationId: >-
         twin_management_create_catalog_part_twin_twin_management_catalog_part_twin_post
+      parameters:
+        - name: autoCreatePartTypeInformation
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Automatically create part type information submodel if not
+              present.
+            default: true
+            title: Autocreateparttypeinformation
+          description: Automatically create part type information submodel if not present.
       requestBody:
         required: true
         content:
@@ -259,12 +845,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TwinRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/twin-management/catalog-part-twin/{global_id}':
     get:
       tags:
@@ -286,18 +910,56 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CatalogPartTwinDetailsRead'
+                anyOf:
+                  - $ref: '#/components/schemas/CatalogPartTwinDetailsRead'
+                  - type: 'null'
                 title: >-
                   Response Twin Management Get Catalog Part Twin Twin Management
                   Catalog Part Twin  Global Id  Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/twin-management/catalog-part-twin/{manufacturerId}/{manufacturerPartId}':
     get:
       tags:
@@ -324,19 +986,459 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CatalogPartTwinDetailsRead'
+                anyOf:
+                  - $ref: '#/components/schemas/CatalogPartTwinDetailsRead'
+                  - type: 'null'
                 title: >-
                   Response Twin Management Get Catalog Part Twin From
                   Manufacturer Twin Management Catalog Part Twin 
                   Manufacturerid   Manufacturerpartid  Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /twin-management/catalog-part-twin/share:
+    post:
+      tags:
+        - Twin Management
+      summary: Twin Management Share Catalog Part Twin
+      operationId: >-
+        twin_management_share_catalog_part_twin_twin_management_catalog_part_twin_share_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogPartTwinShareCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '201':
+          description: Catalog part twin shared successfully
+        '204':
+          description: Catalog part twin already shared
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /twin-management/serialized-part-twin:
+    get:
+      tags:
+        - Twin Management
+      summary: Twin Management Get All Serialized Part Twins
+      operationId: >-
+        twin_management_get_all_serialized_part_twins_twin_management_serialized_part_twin_get
+      parameters:
+        - name: include_data_exchange_agreements
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+            title: Include Data Exchange Agreements
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SerializedPartTwinRead'
+                title: >-
+                  Response Twin Management Get All Serialized Part Twins Twin
+                  Management Serialized Part Twin Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+    post:
+      tags:
+        - Twin Management
+      summary: Twin Management Create Serialized Part Twin
+      operationId: >-
+        twin_management_create_serialized_part_twin_twin_management_serialized_part_twin_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedPartTwinCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwinRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  '/twin-management/serialized-part-twin/{global_id}':
+    get:
+      tags:
+        - Twin Management
+      summary: Twin Management Get Serialized Part Twin
+      operationId: >-
+        twin_management_get_serialized_part_twin_twin_management_serialized_part_twin__global_id__get
+      parameters:
+        - name: global_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            title: Global Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/SerializedPartTwinDetailsRead'
+                  - type: 'null'
+                title: >-
+                  Response Twin Management Get Serialized Part Twin Twin
+                  Management Serialized Part Twin  Global Id  Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /twin-management/twin-aspect:
+    post:
+      tags:
+        - Twin Management
+      summary: Twin Management Create Twin Aspect
+      operationId: twin_management_create_twin_aspect_twin_management_twin_aspect_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwinAspectCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwinAspectRead'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /twin-management/serialized-part-twin/share:
+    post:
+      tags:
+        - Twin Management
+      summary: Twin Management Share Serialized Part Twin
+      operationId: >-
+        twin_management_share_serialized_part_twin_twin_management_serialized_part_twin_share_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedPartTwinShareCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '201':
+          description: Catalog part twin shared successfully
+        '204':
+          description: Catalog part twin already shared
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/submodel-dispatcher/{semantic_id}/{global_id}':
     get:
       tags:
@@ -393,12 +1495,50 @@ paths:
                 title: >-
                   Response Submodel Dispatcher Get Submodel Content Submodel
                   Value Submodel Dispatcher  Semantic Id   Global Id  Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/submodel-dispatcher/{semantic_id}/{global_id}/submodel':
     get:
       tags:
@@ -456,12 +1596,50 @@ paths:
                   Response Submodel Dispatcher Get Submodel Content Submodel
                   Value Submodel Dispatcher  Semantic Id   Global Id  Submodel
                   Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
     post:
       tags:
         - Submodel Dispatcher
@@ -494,12 +1672,50 @@ paths:
       responses:
         '204':
           description: Successful Response
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
     delete:
       tags:
         - Submodel Dispatcher
@@ -523,12 +1739,50 @@ paths:
       responses:
         '204':
           description: Successful Response
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   '/submodel-dispatcher/{semantic_id}/{global_id}/submodel/$value':
     get:
       tags:
@@ -586,12 +1840,50 @@ paths:
                   Response Submodel Dispatcher Get Submodel Content Submodel
                   Value Submodel Dispatcher  Semantic Id   Global Id  Submodel 
                   Value Get
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
   /share/catalog-part:
     post:
       tags:
@@ -611,6 +1903,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SharedPartBase'
+        '400':
+          description: Invalid input provided. Please check your request and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '403':
+          description: Access denied. You do not have permission to perform this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '404':
+          description: Catalog not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '409':
+          description: Catalog part already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '502':
+          description: >-
+            Bad Gateway - The server received an invalid response from the
+            upstream server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+        '503':
+          description: Service unavailable. Please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDetail'
+  /connection/data/get:
+    post:
+      tags:
+        - Open Connection Management
+      summary: Data Get
+      operationId: data_get_connection_data_get_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoGetParams'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /connection/data/post:
+    post:
+      tags:
+        - Open Connection Management
+      summary: Data Post
+      operationId: data_post_connection_data_post_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoPostParams'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
         '422':
           description: Validation Error
           content:
@@ -698,9 +2076,11 @@ components:
           title: Description
           description: The decription of the part.
         materials:
-          items:
-            $ref: '#/components/schemas/Material'
-          type: array
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/Material'
+              type: array
+            - type: 'null'
           title: Materials
           description: 'List of materials, e.g. [{''name'':''aluminum'',''share'':''20''}]'
           default: []
@@ -741,8 +2121,10 @@ components:
         - manufacturerPartId
         - name
       title: CatalogPartCreate
-    CatalogPartReadWithStatus:
+    CatalogPartDetailsReadWithStatus:
       properties:
+        status:
+          $ref: '#/components/schemas/SharingStatus'
         manufacturerId:
           type: string
           title: Manufacturerid
@@ -774,9 +2156,11 @@ components:
           title: Description
           description: The decription of the part.
         materials:
-          items:
-            $ref: '#/components/schemas/Material'
-          type: array
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/Material'
+              type: array
+            - type: 'null'
           title: Materials
           description: 'List of materials, e.g. [{''name'':''aluminum'',''share'':''20''}]'
           default: []
@@ -811,18 +2195,50 @@ components:
             The list of customer part IDs mapped to the respective Business
             Partners.
           default: {}
-        status:
-          $ref: '#/components/schemas/SharingStatus'
-          description: >-
-            The status of the part. (0: draft, 1:pending, 2: registered, 3:
-            shared)
       type: object
       required:
+        - status
         - manufacturerId
         - manufacturerPartId
         - name
+      title: CatalogPartDetailsReadWithStatus
+      description: Catalog part read model with status information.
+    CatalogPartReadWithStatus:
+      properties:
+        status:
+          $ref: '#/components/schemas/SharingStatus'
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        name:
+          type: string
+          title: Name
+          description: The name of the part.
+        category:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Category
+          description: The category of the part.
+        bpns:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Bpns
+          description: The site number (BPNS) the part is attached to.
+      type: object
+      required:
         - status
+        - manufacturerId
+        - manufacturerPartId
+        - name
       title: CatalogPartReadWithStatus
+      description: Simple catalog part read model with status information.
     CatalogPartTwinCreate:
       properties:
         globalId:
@@ -952,9 +2368,11 @@ components:
           title: Description
           description: The decription of the part.
         materials:
-          items:
-            $ref: '#/components/schemas/Material'
-          type: array
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/Material'
+              type: array
+            - type: 'null'
           title: Materials
           description: 'List of materials, e.g. [{''name'':''aluminum'',''share'':''20''}]'
           default: []
@@ -1065,9 +2483,11 @@ components:
           title: Description
           description: The decription of the part.
         materials:
-          items:
-            $ref: '#/components/schemas/Material'
-          type: array
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/Material'
+              type: array
+            - type: 'null'
           title: Materials
           description: 'List of materials, e.g. [{''name'':''aluminum'',''share'':''20''}]'
           default: []
@@ -1113,6 +2533,28 @@ components:
         - name
       title: CatalogPartTwinRead
       description: Represents a catalog part twin within the Digital Twin Registry.
+    CatalogPartTwinShareCreate:
+      properties:
+        businessPartnerNumber:
+          type: string
+          title: Businesspartnernumber
+          description: >-
+            The business partner number of the business partner with which the
+            catalog part is shared.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+      type: object
+      required:
+        - businessPartnerNumber
+        - manufacturerId
+        - manufacturerPartId
+      title: CatalogPartTwinShareCreate
     DataExchangeAgreementRead:
       properties:
         businessPartner:
@@ -1157,6 +2599,133 @@ components:
       description: >-
         Represents document type specific contract terms belonging to a data
         exchange agreement.
+    DoGetParams:
+      properties:
+        counter_party_id:
+          type: string
+          title: Counter Party Id
+        counter_party_address:
+          type: string
+          title: Counter Party Address
+        filter_expression:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Filter Expression
+        path:
+          type: string
+          title: Path
+          default: /
+        policies:
+          items: {}
+          type: array
+          title: Policies
+        verify:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Verify
+          default: false
+        headers:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Headers
+          default: {}
+        timeout:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Timeout
+        params:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Params
+        allow_redirects:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Allow Redirects
+          default: false
+      type: object
+      required:
+        - counter_party_id
+        - counter_party_address
+        - filter_expression
+      title: DoGetParams
+    DoPostParams:
+      properties:
+        counter_party_id:
+          type: string
+          title: Counter Party Id
+        counter_party_address:
+          type: string
+          title: Counter Party Address
+        body:
+          title: Body
+        filter_expression:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Filter Expression
+        path:
+          type: string
+          title: Path
+          default: /
+        content_type:
+          type: string
+          title: Content Type
+          default: application/json
+        policies:
+          anyOf:
+            - items: {}
+              type: array
+            - type: 'null'
+          title: Policies
+        verify:
+          type: boolean
+          title: Verify
+          default: false
+        headers:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Headers
+        timeout:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Timeout
+        allow_redirects:
+          type: boolean
+          title: Allow Redirects
+          default: false
+      type: object
+      required:
+        - counter_party_id
+        - counter_party_address
+        - body
+        - filter_expression
+      title: DoPostParams
+    ErrorDetail:
+      properties:
+        status:
+          type: integer
+          title: Status
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+        - status
+        - message
+      title: ErrorDetail
     HTTPValidationError:
       properties:
         detail:
@@ -1195,6 +2764,524 @@ components:
         - value
         - unit
       title: Measurement
+    PartnerCatalogPartCreate:
+      properties:
+        customerPartId:
+          type: string
+          title: Customerpartid
+          description: >-
+            The customer part ID for partner specific mapping of the catalog
+            part.
+        businessPartnerNumber:
+          type: string
+          title: Businesspartnernumber
+          description: The unique BPNL of the business partner.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+      type: object
+      required:
+        - customerPartId
+        - businessPartnerNumber
+        - manufacturerId
+        - manufacturerPartId
+      title: PartnerCatalogPartCreate
+    PartnerCatalogPartRead:
+      properties:
+        customerPartId:
+          type: string
+          title: Customerpartid
+          description: >-
+            The customer part ID for partner specific mapping of the catalog
+            part.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        name:
+          type: string
+          title: Name
+          description: The name of the part.
+        category:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Category
+          description: The category of the part.
+        bpns:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Bpns
+          description: The site number (BPNS) the part is attached to.
+        businessPartner:
+          $ref: '#/components/schemas/BusinessPartnerRead'
+          description: The business partner to whom the part is being offered.
+      type: object
+      required:
+        - customerPartId
+        - manufacturerId
+        - manufacturerPartId
+        - name
+        - businessPartner
+      title: PartnerCatalogPartRead
+    SerializedPartCreate:
+      properties:
+        businessPartnerNumber:
+          type: string
+          title: Businesspartnernumber
+          description: The unique BPNL of the business partner.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+        van:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Van
+          description: The optional VAN (Vehicle Assembly Number) of the serialized part.
+        customerPartId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Customerpartid
+          description: The customer part ID of the part.
+      type: object
+      required:
+        - businessPartnerNumber
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+      title: SerializedPartCreate
+    SerializedPartQuery:
+      properties:
+        manufacturerId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        businessPartnerNumber:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Businesspartnernumber
+          description: The unique BPNL of the business partner.
+        customerPartId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Customerpartid
+          description: The customer part ID of the part.
+        partInstanceId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+        van:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Van
+          description: The optional VAN (Vehicle Assembly Number) of the serialized part.
+      type: object
+      title: SerializedPartQuery
+    SerializedPartRead:
+      properties:
+        customerPartId:
+          type: string
+          title: Customerpartid
+          description: >-
+            The customer part ID for partner specific mapping of the catalog
+            part.
+        businessPartner:
+          $ref: '#/components/schemas/BusinessPartnerRead'
+          description: The business partner to whom the part is being offered.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+        name:
+          type: string
+          title: Name
+          description: The name of the part.
+        category:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Category
+          description: The category of the part.
+        bpns:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Bpns
+          description: The site number (BPNS) the part is attached to.
+        van:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Van
+          description: The optional VAN (Vehicle Assembly Number) of the serialized part.
+      type: object
+      required:
+        - customerPartId
+        - businessPartner
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+        - name
+      title: SerializedPartRead
+    SerializedPartTwinCreate:
+      properties:
+        globalId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Globalid
+          description: >-
+            Optionally the Catena-X ID / global ID of the digital twin to
+            create. If not specified, a new UUID will be created automatically.
+        dtrAasId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Dtraasid
+          description: >-
+            Optionally the shell descriptor ID ('AAS ID') of the digital twin in
+            the Digital Twin Registry. If not specified, a new UUID will be
+            created automatically.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+      type: object
+      required:
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+      title: SerializedPartTwinCreate
+    SerializedPartTwinDetailsRead:
+      properties:
+        additionalContext:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Additionalcontext
+          description: >-
+            Additional context information about the digital twin. This can
+            include various metadata or properties associated with the twin.
+            Intended for handling twins by third party apps.
+        registrations:
+          anyOf:
+            - additionalProperties:
+                type: boolean
+              type: object
+            - type: 'null'
+          title: Registrations
+          description: >-
+            A map of registration information for the digital twin in different
+            enablement service stacks. The key is the name of the enablement
+            service stack.
+        aspects:
+          anyOf:
+            - additionalProperties:
+                $ref: '#/components/schemas/TwinAspectRead'
+              type: object
+            - type: 'null'
+          title: Aspects
+          description: >-
+            A map of aspect information for the digital twin. The key is the
+            semantic ID of the aspect. The value is a TwinAspectRead object
+            containing details about the aspect.
+        globalId:
+          type: string
+          format: uuid
+          title: Globalid
+          description: The Catena-X ID / global ID of the digital twin.
+        dtrAasId:
+          type: string
+          format: uuid
+          title: Dtraasid
+          description: >-
+            The shell descriptor ID ('AAS ID') of the digital twin in the
+            Digital Twin Registry.
+        createdDate:
+          type: string
+          format: date-time
+          title: Createddate
+          description: The date when the digital twin was created.
+        modifiedDate:
+          type: string
+          format: date-time
+          title: Modifieddate
+          description: The date when the digital twin was last modified.
+        shares:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/DataExchangeAgreementRead'
+              type: array
+            - type: 'null'
+          title: Shares
+          description: A list of data exchange agreements the digital twin is shared via.
+        customerPartId:
+          type: string
+          title: Customerpartid
+          description: >-
+            The customer part ID for partner specific mapping of the catalog
+            part.
+        businessPartner:
+          $ref: '#/components/schemas/BusinessPartnerRead'
+          description: The business partner to whom the part is being offered.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+        name:
+          type: string
+          title: Name
+          description: The name of the part.
+        category:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Category
+          description: The category of the part.
+        bpns:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Bpns
+          description: The site number (BPNS) the part is attached to.
+        description:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Description
+          description: The decription of the part.
+        materials:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/Material'
+              type: array
+            - type: 'null'
+          title: Materials
+          description: 'List of materials, e.g. [{''name'':''aluminum'',''share'':''20''}]'
+          default: []
+        width:
+          anyOf:
+            - $ref: '#/components/schemas/Measurement'
+            - type: 'null'
+          description: The width of the part.
+        height:
+          anyOf:
+            - $ref: '#/components/schemas/Measurement'
+            - type: 'null'
+          description: The height of the part.
+        length:
+          anyOf:
+            - $ref: '#/components/schemas/Measurement'
+            - type: 'null'
+          description: The length of the part.
+        weight:
+          anyOf:
+            - $ref: '#/components/schemas/Measurement'
+            - type: 'null'
+          description: The weight of the part.
+        customerPartIds:
+          anyOf:
+            - additionalProperties:
+                $ref: '#/components/schemas/BusinessPartnerRead'
+              type: object
+            - type: 'null'
+          title: Customerpartids
+          description: >-
+            The list of customer part IDs mapped to the respective Business
+            Partners.
+          default: {}
+        van:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Van
+          description: The optional VAN (Vehicle Assembly Number) of the serialized part.
+      type: object
+      required:
+        - globalId
+        - dtrAasId
+        - createdDate
+        - modifiedDate
+        - customerPartId
+        - businessPartner
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+        - name
+      title: SerializedPartTwinDetailsRead
+      description: >-
+        Represents the details of a serialized part twin within the Digital Twin
+        Registry.
+    SerializedPartTwinRead:
+      properties:
+        globalId:
+          type: string
+          format: uuid
+          title: Globalid
+          description: The Catena-X ID / global ID of the digital twin.
+        dtrAasId:
+          type: string
+          format: uuid
+          title: Dtraasid
+          description: >-
+            The shell descriptor ID ('AAS ID') of the digital twin in the
+            Digital Twin Registry.
+        createdDate:
+          type: string
+          format: date-time
+          title: Createddate
+          description: The date when the digital twin was created.
+        modifiedDate:
+          type: string
+          format: date-time
+          title: Modifieddate
+          description: The date when the digital twin was last modified.
+        shares:
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/DataExchangeAgreementRead'
+              type: array
+            - type: 'null'
+          title: Shares
+          description: A list of data exchange agreements the digital twin is shared via.
+        customerPartId:
+          type: string
+          title: Customerpartid
+          description: >-
+            The customer part ID for partner specific mapping of the catalog
+            part.
+        businessPartner:
+          $ref: '#/components/schemas/BusinessPartnerRead'
+          description: The business partner to whom the part is being offered.
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+        name:
+          type: string
+          title: Name
+          description: The name of the part.
+        category:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Category
+          description: The category of the part.
+        bpns:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Bpns
+          description: The site number (BPNS) the part is attached to.
+        van:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Van
+          description: The optional VAN (Vehicle Assembly Number) of the serialized part.
+      type: object
+      required:
+        - globalId
+        - dtrAasId
+        - createdDate
+        - modifiedDate
+        - customerPartId
+        - businessPartner
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+        - name
+      title: SerializedPartTwinRead
+      description: Represents a serialized part twin within the Digital Twin Registry.
+    SerializedPartTwinShareCreate:
+      properties:
+        manufacturerId:
+          type: string
+          title: Manufacturerid
+          description: The BPNL (manufactuer ID) of the part to register.
+        manufacturerPartId:
+          type: string
+          title: Manufacturerpartid
+          description: The manufacturer part ID of the part.
+        partInstanceId:
+          type: string
+          title: Partinstanceid
+          description: The part instance ID of the serialized part.
+      type: object
+      required:
+        - manufacturerId
+        - manufacturerPartId
+        - partInstanceId
+      title: SerializedPartTwinShareCreate
     ShareCatalogPart:
       properties:
         manufacturerId:
@@ -1271,44 +3358,45 @@ components:
         - 3
       title: SharingStatus
       description: 'The status of the part. (0: draft, 1: pending, 2: registered, 3: shared)'
-    SimpleCatalogPartReadWithStatus:
+    TwinAspectCreate:
       properties:
-        manufacturerId:
+        globalId:
           type: string
-          title: Manufacturerid
-          description: The BPNL (manufactuer ID) of the part to register.
-        manufacturerPartId:
-          type: string
-          title: Manufacturerpartid
-          description: The manufacturer part ID of the part.
-        name:
-          type: string
-          title: Name
-          description: The name of the part.
-        category:
-          anyOf:
-            - type: string
-            - type: 'null'
-          title: Category
-          description: The category of the part.
-        bpns:
-          anyOf:
-            - type: string
-            - type: 'null'
-          title: Bpns
-          description: The site number (BPNS) the part is attached to.
-        status:
-          $ref: '#/components/schemas/SharingStatus'
+          format: uuid
+          title: Globalid
           description: >-
-            The status of the part. (0: draft, 1:pending, 2: registered, 3:
-            shared)
+            The Catena-X ID / global ID of the digital twin to which the new
+            aspect belongs.
+        semanticId:
+          type: string
+          title: Semanticid
+          description: >-
+            The semantic ID of the new aspect determining the structure of the
+            associated payload data.
+        submodelId:
+          anyOf:
+            - type: string
+              format: uuid
+            - type: 'null'
+          title: Submodelid
+          description: >-
+            The optional ID of the submodel descriptor within the DTR shell
+            descriptor for the associated twin. If not specified, a new UUID
+            will be created automatically.
+        payload:
+          additionalProperties: true
+          type: object
+          title: Payload
+          description: >-
+            The payload data of the new aspect. This is a JSON object that
+            contains the actual data of the aspect. The structure of this object
+            is determined by the semantic ID of the aspect.
       type: object
       required:
-        - manufacturerId
-        - manufacturerPartId
-        - name
-        - status
-      title: SimpleCatalogPartReadWithStatus
+        - globalId
+        - semanticId
+        - payload
+      title: TwinAspectCreate
     TwinAspectRead:
       properties:
         semanticId:
@@ -1487,4 +3575,7 @@ tags:
     description: >-
       Internal API called by EDC Data Planes or Admins in order the deliver data
       of of the internal used Submodel Service
-
+  - name: Open Connection Management
+    description: >-
+      Handles the connections from the consumer modules, for specific services
+      like digital twin registry and data endpoints
