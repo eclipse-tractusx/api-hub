@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.0.4
 info:
   title: Org.Eclipse.TractusX.Portal.Backend.Administration.Service
-  version: v2.4.0
+  version: v2.6.0-RC1
 paths:
   /api/administration/companydata/ownCompanyDetails:
     get:
@@ -88,7 +88,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/NoContentResult'
         '409':
-          description: "Company Status is Incorrect \n\r\nUseCaseId is not available"
+          description: "Company Status is Incorrect \n\nUseCaseId is not available"
           content:
             application/json:
               schema:
@@ -157,13 +157,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/NoContentResult'
         '400':
-          description: "All agreement need to get signed as Active or InActive \n\r\nAgreements not associated with requested companyRoles"
+          description: "All agreement need to get signed as Active or InActive \n\nAgreements not associated with requested companyRoles"
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '409':
-          description: "Company does not exists \n\r\nCompany is in Incorrect state \n\r\nCompany can't unassign from all roles"
+          description: "Company does not exists \n\nCompany is in Incorrect state \n\nCompany can't unassign from all roles"
           content:
             application/json:
               schema:
@@ -222,7 +222,7 @@ paths:
         '204':
           description: Successfully created the use case participation request.
         '400':
-          description: "VerifiedCredentialExternalTypeDetailId does not exist \n\r\nCredential request already exist"
+          description: "VerifiedCredentialExternalTypeDetailId does not exist \n\nCredential request already exist"
           content:
             application/json:
               schema:
@@ -578,7 +578,7 @@ paths:
       tags:
         - CompanyData
       summary: 'Retrieves all active companies with missing sd document. (Authorization required - Roles: view_company_data)'
-      description: "Example: GET: /api/administration/companyData/missing-sd-document \n\r\nExample: GET: /api/administration/companyData/missing-sd-document?page=0&size=15"
+      description: "Example: GET: /api/administration/companyData/missing-sd-document \n\nExample: GET: /api/administration/companyData/missing-sd-document?page=0&size=15"
       parameters:
         - name: page
           in: query
@@ -698,7 +698,7 @@ paths:
       tags:
         - Connectors
       summary: 'Retrieves all company registered own connectors and their status. (Authorization required - Roles: view_connectors)'
-      description: "Example: GET: /api/administration/connectors \n\r\nExample: GET: /api/administration/connectors?page=0&size=15"
+      description: "Example: GET: /api/administration/connectors \n\nExample: GET: /api/administration/connectors?page=0&size=15"
       parameters:
         - name: page
           in: query
@@ -784,12 +784,46 @@ paths:
           description: Internal Server Error
         '401':
           description: The User is unauthorized
+  /api/administration/Connectors/provided:
+    get:
+      tags:
+        - Connectors
+      summary: 'Retrieves all company registered provided connectors and their status. (Authorization required - Roles: view_connectors)'
+      description: "Example: GET: /api/administration/connectors/provided \n\nExample: GET: /api/administration/connectors/provided?page=0&size=15"
+      parameters:
+        - name: page
+          in: query
+          description: Optional query parameter defining the requested page number.
+          schema:
+            type: integer
+            format: int32
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          description: Optional query parameter defining the number of connectors listed per page.
+          schema:
+            type: integer
+            format: int32
+            default: 15
+          example: 15
+      responses:
+        '200':
+          description: Returns a list of all of the current user's company's provided connectors.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectorDataResponse'
+        '500':
+          description: Internal Server Error
+        '401':
+          description: The User is unauthorized
   /api/administration/Connectors/managed:
     get:
       tags:
         - Connectors
       summary: 'Retrieves all registered connectors which are managed connectors of company customers and their status. (Authorization required - Roles: view_connectors)'
-      description: "Example: GET: /api/administration/connectors/managed \n\r\nExample: GET: /api/administration/connectors/managed?page=0&size=15"
+      description: "Example: GET: /api/administration/connectors/managed \n\nExample: GET: /api/administration/connectors/managed?page=0&size=15"
       parameters:
         - name: page
           in: query
@@ -1103,7 +1137,7 @@ paths:
       parameters:
         - name: connectorIdSet
           in: query
-          description: "Optional: if `true` only respond with subscriptions where a link to a connector is given,\r\nif `false` it will only return subscriptions where no link to an connector exists."
+          description: "Optional: if `true` only respond with subscriptions where a link to a connector is given,\nif `false` it will only return subscriptions where no link to an connector exists."
           schema:
             type: boolean
           example: false
@@ -1125,7 +1159,7 @@ paths:
       tags:
         - Connectors
       summary: 'Retrieves all active connectors with missing sd document. (Authorization required - Roles: view_connectors)'
-      description: "Example: GET: /api/administration/connectors/missing-sd-document \n\r\nExample: GET: /api/administration/connectors/missing-sd-document?page=0&size=15"
+      description: "Example: GET: /api/administration/connectors/missing-sd-document \n\nExample: GET: /api/administration/connectors/missing-sd-document?page=0&size=15"
       parameters:
         - name: page
           in: query
@@ -1404,7 +1438,7 @@ paths:
       tags:
         - Documents
       summary: 'Gets the json the seed data for a specific document (Authorization required - Roles: debug_download_documents)'
-      description: "Example: GET: /api/registration/documents/{documentId}/seeddata\r\n\n<b>this endpoint can only be used in the dev environment!</b>"
+      description: "Example: GET: /api/registration/documents/{documentId}/seeddata\n\n<b>this endpoint can only be used in the dev environment!</b>"
       parameters:
         - name: documentId
           in: path
@@ -3142,7 +3176,7 @@ paths:
       tags:
         - Network
       summary: 'Get OSP Company Application Detail by Company Name or Status (Authorization required - Roles: configure_partner_registration)'
-      description: "Example: GET: api/administration/registration/network/companies?companyName=Car&page=0&size=4&companyApplicationStatus=Closed \n\r\nExample: GET: api/administration/registration/network/companies?page=0&size=4"
+      description: "Example: GET: api/administration/registration/network/companies?companyName=Car&page=0&size=4&companyApplicationStatus=Closed \n\nExample: GET: api/administration/registration/network/companies?page=0&size=4"
       parameters:
         - name: page
           in: query
@@ -3150,12 +3184,14 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 0
         - name: size
           in: query
           description: size to get number of records
           schema:
             type: integer
             format: int32
+            default: 15
         - name: companyApplicationStatusFilter
           in: query
           description: Search by company applicationstatus
@@ -3285,7 +3321,7 @@ paths:
       tags:
         - Registration
       summary: 'Get Application Detail by Company Name or Status (Authorization required - Roles: view_submitted_applications)'
-      description: "Example: GET: api/administration/registration/applications?companyName=Car&page=0&size=4&companyApplicationStatus=Closed \n\r\nExample: GET: api/administration/registration/applications?page=0&size=4"
+      description: "Example: GET: api/administration/registration/applications?companyName=Car&page=0&size=4&companyApplicationStatus=Closed \n\nExample: GET: api/administration/registration/applications?page=0&size=4"
       parameters:
         - name: page
           in: query
@@ -3293,12 +3329,14 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 0
         - name: size
           in: query
           description: size to get number of records
           schema:
             type: integer
             format: int32
+            default: 15
         - name: companyApplicationStatusFilter
           in: query
           description: Search by company applicationstatus
@@ -4444,12 +4482,14 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 0
         - name: size
           in: query
           description: number of service account data
           schema:
             type: integer
             format: int32
+            default: 15
         - name: isOwner
           in: query
           description: isOwner either true or false
@@ -4587,7 +4627,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServiceAccountDetails'
         '400':
-          description: "Problem could be one of the following: \n\r\n- other authenticationType values than SECRET are not supported yet \n\r\n- serviceAccountId from path does not match the one in body \n\r\n- serviceAccount is already INACTIVE \n"
+          description: "Problem could be one of the following: \n\n- other authenticationType values than SECRET are not supported yet \n\n- serviceAccountId from path does not match the one in body \n\n- serviceAccount is already INACTIVE \n"
           content:
             application/json:
               schema:
@@ -4790,7 +4830,7 @@ paths:
       tags:
         - StaticData
       summary: 'Retrieve all app language tags - short name (2digit) and long name (Authorization required - Roles: view_app_language)'
-      description: "Example: GET: /api/administration/staticdata/languagetags\r\nthe \"lang\" parameter is an optional parameter and if not set \"en\" will be used"
+      description: "Example: GET: /api/administration/staticdata/languagetags\nthe \"lang\" parameter is an optional parameter and if not set \"en\" will be used"
       responses:
         '200':
           description: Returns a list of all of the Language i.e german and english
@@ -4952,6 +4992,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+        '401':
+          description: The User is unauthorized
+    delete:
+      tags:
+        - SubscriptionConfiguration
+      summary: 'Delete the auto setup configuration for app/service provider (Authorization required - Roles: add_service_offering, add_apps)'
+      description: 'Example: DELETE: api/administration/subscriptionconfiguration/owncompany'
+      responses:
+        '204':
+          description: Empty response on success.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Auto setup configuration was not found.
         '500':
           description: Internal Server Error
         '401':
@@ -5201,12 +5273,14 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 0
         - name: size
           in: query
           description: size to get number of records
           schema:
             type: integer
             format: int32
+            default: 15
         - name: companyUserId
           in: query
           description: Company User Id
@@ -5802,7 +5876,7 @@ paths:
       tags:
         - User
       summary: 'Gets the core offer roles (Authorization required - Roles: view_client_roles)'
-      description: "Example: GET: api/administration/user/owncompany/roles/coreoffers \n\r\nExample: GET: api/administration/user/owncompany/roles/coreoffers?languageShortName=DE"
+      description: "Example: GET: api/administration/user/owncompany/roles/coreoffers \n\nExample: GET: api/administration/user/owncompany/roles/coreoffers?languageShortName=DE"
       parameters:
         - name: languageShortName
           in: query
@@ -7716,10 +7790,15 @@ components:
       properties:
         url:
           type: string
-          nullable: true
         callbackUrl:
           type: string
           nullable: true
+        authUrl:
+          type: string
+        clientId:
+          type: string
+        clientSecret:
+          type: string
       additionalProperties: false
     ProviderDetailReturnData:
       type: object
@@ -7734,6 +7813,13 @@ components:
         url:
           type: string
           nullable: true
+        callbackUrl:
+          type: string
+          nullable: true
+        authUrl:
+          type: string
+        clientId:
+          type: string
       additionalProperties: false
     Reason:
       type: object
