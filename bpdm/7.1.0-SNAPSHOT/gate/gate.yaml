@@ -140,7 +140,6 @@ paths:
             enum:
               - IsManagedBy
               - IsAlternativeHeadquarterFor
-              - IsOwnedBy
         - name: businessPartnerSourceExternalIds
           in: query
           description: Only show relations which have the given business partners as
@@ -2695,7 +2694,6 @@ components:
           enum:
             - IsManagedBy
             - IsAlternativeHeadquarterFor
-            - IsOwnedBy
         businessPartnerSourceExternalId:
           type: string
           description: The business partner from which the relation emerges (the source)
@@ -2727,7 +2725,6 @@ components:
           enum:
             - IsAlternativeHeadquarterFor
             - IsManagedBy
-            - IsOwnedBy
         sourceBpnL:
           type: string
         targetBpnL:
@@ -2757,7 +2754,6 @@ components:
           enum:
             - IsAlternativeHeadquarterFor
             - IsManagedBy
-            - IsOwnedBy
         sourceBpnLs:
           type: array
           description: Only show relations which have the given business partners
@@ -2790,7 +2786,6 @@ components:
           enum:
             - IsManagedBy
             - IsAlternativeHeadquarterFor
-            - IsOwnedBy
         businessPartnerSourceExternalId:
           type: string
           description: The external identifier of the business partner from which
@@ -2817,7 +2812,6 @@ components:
           enum:
             - IsManagedBy
             - IsAlternativeHeadquarterFor
-            - IsOwnedBy
         businessPartnerSourceExternalId:
           type: string
           description: The external identifier of the business partner from which
@@ -2866,7 +2860,6 @@ components:
           enum:
             - IsManagedBy
             - IsAlternativeHeadquarterFor
-            - IsOwnedBy
         businessPartnerSourceExternalIds:
           type: array
           description: Only show relations which have the given business partners

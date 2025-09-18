@@ -4538,7 +4538,6 @@ components:
             - RegionNotFound
             - IdentifierNotFound
             - AddressDuplicateIdentifier
-            - IdentifiersTooMany
         message:
           type: string
           description: Error message that explains the error
@@ -4562,7 +4561,6 @@ components:
             - RegionNotFound
             - IdentifierNotFound
             - AddressDuplicateIdentifier
-            - IdentifiersTooMany
         message:
           type: string
           description: Error message that explains the error
@@ -4588,8 +4586,7 @@ components:
             - LegalAddressRegionNotFound
             - LegalAddressIdentifierNotFound
             - LegalAddressDuplicateIdentifier
-            - LegalEntityIdentifiersTooMany
-            - LegalAddressIdentifiersTooMany
+            - LegalEntityErrorMapping
         message:
           type: string
           description: Error message that explains the error
@@ -4616,8 +4613,7 @@ components:
             - LegalAddressRegionNotFound
             - LegalAddressIdentifierNotFound
             - LegalAddressDuplicateIdentifier
-            - LegalEntityIdentifiersTooMany
-            - LegalAddressIdentifiersTooMany
+            - LegalEntityErrorMapping
         message:
           type: string
           description: Error message that explains the error
@@ -4641,7 +4637,6 @@ components:
             - MainAddressIdentifierNotFound
             - MainAddressRegionNotFound
             - MainAddressDuplicateIdentifier
-            - MainAddressIdentifiersTooMany
         message:
           type: string
           description: Error message that explains the error
@@ -4665,7 +4660,6 @@ components:
             - MainAddressIdentifierNotFound
             - MainAddressRegionNotFound
             - MainAddressDuplicateIdentifier
-            - MainAddressIdentifiersTooMany
         message:
           type: string
           description: Error message that explains the error
@@ -7904,7 +7898,6 @@ components:
           enum:
             - IsAlternativeHeadquarterFor
             - IsManagedBy
-            - IsOwnedBy
         businessPartnerSourceBpnl:
           type: string
           description: BPN of partner from which the relation emerges (the source)
