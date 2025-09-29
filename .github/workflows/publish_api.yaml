@@ -45,6 +45,28 @@ jobs:
           echo "RANDOM=${RANDOM}" >> $GITHUB_OUTPUT
           cd ${{ env.API_COLLECTOR_DIR }}
           go run main.go -owner ${{ github.repository_owner }} -token ${{ secrets.GITHUB_TOKEN }}
+      - name: Move multiple OpenAPI specs files in one directory into individual directories
+        run: |
+          # Find all directories containing multiple *.yaml or *.yml files
+          find "${{ env.API_COLLECTOR_DIR }}/docs" -type d | while read -r DIR; do
+            # Count how many YAML/YML files are in the current directory
+            FILES=($(find "$DIR" -maxdepth 1 -type f \( -name "*.yaml" -o -name "*.yml" \)))
+            # If there are more than one YAML file in the directory
+            if [ ${#FILES[@]} -gt 1 ]; then
+              # Loop through each YAML file
+              for FILE in "${FILES[@]}"; do
+                # Extract the filename without the extension
+                FILENAME=$(basename "$FILE")
+                BASENAME="${FILENAME%.*}"
+                # Create a directory named after the file (without the extension)
+                TARGET_DIR="$DIR/$BASENAME"
+                mkdir -p "$TARGET_DIR"
+                # Move the file into the newly created directory
+                mv "$FILE" "$TARGET_DIR/"
+              done
+            fi
+          done
+          echo "Multiple OpenAPI specs files in one directory have been organized into individual directories."
       - name: Check for specs
         id: check_specs
         run: |
@@ -105,10 +127,12 @@ jobs:
         with:
           output: ${{ steps.determine_directory.outputs.DIR_PATH }}/swagger-ui
           spec-file: ${{ matrix.specs }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          version: "5.21.0"
       - name: Generate Directory Listings
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
-          FOLDER: ${{ steps.determine_directory.outputs.PRODUCT_PATH }}
+          FOLDER: ${{ steps.determine_directory.outputs.DIR_PATH }}
       - uses: actions/upload-artifact@v4
         with:
           name: swagger-${{ steps.determine_directory.outputs.RANDOM }}
