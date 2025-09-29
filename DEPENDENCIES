@@ -2,7 +2,7 @@ go/golang/github.com%2Fgoogle%2Fgo-github/v61/v61.0.0, BSD-3-Clause, approved, #
 go/golang/github.com%2Fgoogle/go-cmp/v0.5.2, BSD-3-Clause, approved, #5689
 go/golang/github.com%2Fgoogle/go-cmp/v0.6.0, BSD-3-Clause, approved, #11058
 go/golang/github.com%2Fgoogle/go-querystring/v1.1.0, BSD-3-Clause, approved, clearlydefined
-go/golang/golang.org%2Fx/oauth2/v0.21.0, BSD-3-Clause, approved, clearlydefined
+go/golang/golang.org%2Fx/oauth2/v0.27.0, BSD-3-Clause, approved, clearlydefined
 go/golang/golang.org%2Fx/xerrors/v0.0.0-20191204190536-9bdfabe68543, BSD-3-Clause, approved, #3443
 go/golang/gopkg.in/check.v1/v0.0.0-20161208181325-20d25e280405, BSD-3-Clause AND BSD-2-Clause, approved, #6054
 go/golang/gopkg.in/yaml.v2/v2.4.0, Apache-2.0 AND MIT, approved, #6057
