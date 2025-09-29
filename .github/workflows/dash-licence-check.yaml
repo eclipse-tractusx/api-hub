@@ -1,5 +1,5 @@
 # #############################################################################
-# Copyright (c) 2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -39,3 +39,4 @@ jobs:
         uses: eclipse-tractusx/sig-infra/.github/actions/run-dash@main
         with:
           dash_input: "dash-input.sum"
+          
