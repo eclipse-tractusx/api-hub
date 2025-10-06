@@ -33,7 +33,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build dash input
-        run: run: cp src/api-collector/go.sum dash-input.sum
+        run: cp src/api-collector/go.sum dash-input.sum
       - name: Run dash
         id: run-dash
         uses: eclipse-tractusx/sig-infra/.github/actions/run-dash@main
