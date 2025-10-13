@@ -34,7 +34,7 @@ jobs:
     outputs:
       specs_exists: ${{ steps.check_specs.outputs.exists }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-go@v5
         with:
           go-version-file: "${{ env.API_COLLECTOR_DIR }}/go.mod"
@@ -87,7 +87,7 @@ jobs:
     outputs:
       specs: ${{ steps.create_specs_list.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Download OpenAPI specs artifacts
         uses: actions/download-artifact@v4
         with:
@@ -105,7 +105,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate_matrix.outputs.specs) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Download OpenAPI specs artifacts
         uses: actions/download-artifact@v4
         with:
