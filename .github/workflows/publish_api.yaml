@@ -35,7 +35,7 @@ jobs:
       specs_exists: ${{ steps.check_specs.outputs.exists }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version-file: "${{ env.API_COLLECTOR_DIR }}/go.mod"
       - name: Collect OpenAPI specs
