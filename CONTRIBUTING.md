@@ -44,6 +44,57 @@ The project maintains the following source code repositories
 
 * https://github.com/eclipse-tractusx/api-hub
 
+## Dash license tool
+
+Use the Eclipse Dash license tool to update the dependency summary. For more
+information, see [TRG 7.04](https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-04/#checking-libraries-using-the-eclipse-dash-license-tool).
+
+Update `DEPENDENCIES` after changes in `src/api-collector/go.sum`:
+
+```bash
+java -jar /path/to/org.eclipse.dash.licenses-<version>.jar \
+  /path/to/api-hub/src/api-collector/go.sum \
+  -project automotive.tractusx \
+  -summary ./DEPENDENCIES
+```
+
+> [!TIP]
+> **Example when running from the repository root**
+>
+>```bash
+>java -jar org.eclipse.dash.licenses-<version>.jar \
+>  ./src/api-collector/go.sum \
+>  -project automotive.tractusx \
+>  -summary ./DEPENDENCIES
+>```
+
+If you add a new library or a new version, a review might be required. This can
+only be done by a committer:
+
+```bash
+java -jar /path/to/org.eclipse.dash.licenses-<version>.jar \
+  /path/to/api-hub/src/api-collector/go.sum \
+  -project automotive.tractusx \
+  -summary ./DEPENDENCIES \
+  -review \
+  -token $DASH_TOKEN
+```
+
+> [!TIP]
+> **Example when running from the repository root**
+>
+>```bash
+>java -jar org.eclipse.dash.licenses-<version>.jar \
+>  ./src/api-collector/go.sum \
+>  -project automotive.tractusx \
+>  -summary ./DEPENDENCIES \
+>  -review \
+>  -token $DASH_TOKEN
+>```
+
+`DASH_TOKEN` is a personal access token created by a committer in the Eclipse
+GitLab instance.
+
 ## Eclipse Development Process
 
 This Eclipse Foundation open project is governed by the Eclipse Foundation
