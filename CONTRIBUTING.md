@@ -47,7 +47,7 @@ The project maintains the following source code repositories
 ## Dash license tool
 
 Use the Eclipse Dash license tool to update the dependency summary. For more
-information, see TRG 7.04: https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-04/#checking-libraries-using-the-eclipse-dash-license-tool
+information, see [TRG 7.04](https://eclipse-tractusx.github.io/docs/release/trg-7/trg-7-04/#checking-libraries-using-the-eclipse-dash-license-tool).
 
 Update `DEPENDENCIES` after changes in `src/api-collector/go.sum`:
 
