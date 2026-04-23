@@ -2,7 +2,10 @@ openapi: 3.0.1
 info:
   title: directory-api
   description: REST API documentation for the directory-api
-  version: 0.5.7
+  license:
+    name: "The Apache License, Version 2.0"
+    url: http://www.apache.org/licenses/LICENSE-2.0.txt
+  version: 0.6.0-rc2
 servers:
 - url: /
 paths:
@@ -52,3 +55,8 @@ components:
           type: string
         type:
           type: string
+      example:
+        path: path
+        message: message
+        type: type
+        invalidValue: "{}"
