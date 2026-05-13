@@ -111,25 +111,25 @@ func getAuthenticatedClient(ctx context.Context, gitToken string) *github.Client
 }
 
 func getOrgRepos(ctx context.Context, gitOwner string, client *github.Client) ([]*github.Repository, error) {
-	opt := &github.RepositoryListByOrgOptions{
-		ListOptions: github.ListOptions{},
-	}
+    opt := &github.RepositoryListOptions{
+        ListOptions: github.ListOptions{},
+    }
 
-	var allRepos []*github.Repository
+    var allRepos []*github.Repository
 
-	for {
-		repos, response, err := client.Repositories.ListByOrg(ctx, gitOwner, opt)
-		if err != nil {
-			return nil, err
-		}
-		allRepos = append(allRepos, repos...)
-		if response.NextPage == 0 {
-			break
-		}
-		opt.Page = response.NextPage
-	}
+    for {
+        repos, response, err := client.Repositories.List(ctx, gitOwner, opt)
+        if err != nil {
+            return nil, err
+        }
+        allRepos = append(allRepos, repos...)
+        if response.NextPage == 0 {
+            break
+        }
+        opt.Page = response.NextPage
+    }
 
-	return allRepos, nil
+    return allRepos, nil
 }
 
 func getAPISpecsUrlsFromMetadata(ctx context.Context, client *github.Client, owner string, repo string) ([]string, error) {
