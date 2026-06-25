@@ -1,6 +1,7 @@
 #################################################################################
 # Eclipse Tractus-X - Identity Hub
 #
+# Copyright (c) 2026 Technovative Solutions
 # Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -153,9 +154,9 @@ paths:
               type: PresentationQueryMessage
               presentationDefinition: null
               scope:
-                - org.eclipse.edc.vc.type:SomeCredential_0.3.5:write
-                - org.eclipse.edc.vc.type:SomeOtherCredential:read
-                - org.eclipse.edc.vc.type:ThirdCredential:*
+                - org.eclipse.dspace.dcp.vc.type:SomeCredential_0.3.5:write
+                - org.eclipse.dspace.dcp.vc.type:SomeOtherCredential:read
+                - org.eclipse.dspace.dcp.vc.type:ThirdCredential:*
   /v1/participants/{PARTICIPANT_CONTEXT_ID}/credentials:
     parameters:
       - name: PARTICIPANT_CONTEXT_ID
@@ -2101,6 +2102,19 @@ paths:
             application/json:
               schema:
                 type: object
+        '401':
+          description: Unauthorized
+        '404':
+          description: Holder not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Deletes a holder.
+      tags: *ref_7
+      parameters: []
+      responses:
+        '204':
+          description: Holder deleted successfully
         '401':
           description: Unauthorized
         '404':
