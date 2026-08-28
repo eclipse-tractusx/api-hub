@@ -5,7 +5,7 @@ info:
   license:
     name: "The Apache License, Version 2.0"
     url: http://www.apache.org/licenses/LICENSE-2.0.txt
-  version: 0.12.1
+  version: 0.12.2
 servers:
 - url: /
 paths:
@@ -156,52 +156,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/business-partner-groups/groups:
-    get:
-      tags:
-      - Business Partner Group
-      description: Resolves all BPN Groups
-      operationId: resolveGroupsV3
-      responses:
-        "200":
-          description: An object containing an array with the all BPN groups
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail_1"
-  /v2/edrs/request:
-    post:
-      tags:
-      - Control Plane EDR Api
-      description: Request all Edr entries according to a particular query
-      operationId: requestEdrEntriesV2
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/QuerySpec"
-      responses:
-        "200":
-          description: The edr entries matching the query
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/EndpointDataReferenceEntry"
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-      deprecated: true
   /v4beta/assets/{id}:
     get:
       tags:
@@ -284,6 +238,52 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/api-error-schema"
+  /v2/edrs/request:
+    post:
+      tags:
+      - Control Plane EDR Api
+      description: Request all Edr entries according to a particular query
+      operationId: requestEdrEntriesV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuerySpec"
+      responses:
+        "200":
+          description: The edr entries matching the query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EndpointDataReferenceEntry"
+        "400":
+          description: Request body was malformed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+      deprecated: true
+  /v3/business-partner-groups/groups:
+    get:
+      tags:
+      - Business Partner Group
+      description: Resolves all BPN Groups
+      operationId: resolveGroupsV3
+      responses:
+        "200":
+          description: An object containing an array with the all BPN groups
+        "400":
+          description: Request body was malformed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail_1"
   /business-partner-groups:
     put:
       tags:
@@ -520,6 +520,43 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
+  /v3/contractagreements/{id}:
+    get:
+      tags:
+      - Contract Agreement V3
+      description: Gets an contract agreement with the given ID
+      operationId: getAgreementByIdV3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: The contract agreement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContractAgreement"
+        "400":
+          description: "Request was malformed, e.g. id was null"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+        "404":
+          description: An contract agreement with the given ID does not exist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
   /v3/contractdefinitions/request:
     post:
       tags:
@@ -570,43 +607,6 @@ paths:
                   $ref: "#/components/schemas/ContractNegotiation"
         "400":
           description: Request was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/contractagreements/{id}:
-    get:
-      tags:
-      - Contract Agreement V3
-      description: Gets an contract agreement with the given ID
-      operationId: getAgreementByIdV3
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: The contract agreement
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ContractAgreement"
-        "400":
-          description: "Request was malformed, e.g. id was null"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-        "404":
-          description: An contract agreement with the given ID does not exist
           content:
             application/json:
               schema:
@@ -1126,23 +1126,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/api-error-schema"
-  /v4beta/catalog/request:
-    post:
-      tags:
-      - Catalog v4beta
-      operationId: requestCatalogV4
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/catalog-request-schema"
-      responses:
-        default:
-          description: Gets contract offers (=catalog) of a single connector
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/catalog-schema"
   /v4beta/policydefinitions/{id}/validate:
     post:
       tags:
@@ -1172,6 +1155,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/api-error-schema"
+  /v4beta/catalog/request:
+    post:
+      tags:
+      - Catalog v4beta
+      operationId: requestCatalogV4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/catalog-request-schema"
+      responses:
+        default:
+          description: Gets contract offers (=catalog) of a single connector
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/catalog-schema"
   /v4beta/contractnegotiations/request:
     post:
       tags:
@@ -1755,6 +1755,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /v2/edrs:
+    post:
+      tags:
+      - Control Plane EDR Api
+      description: Initiates an EDR negotiation by handling a contract negotiation
+        first and then a transfer process for a given offer and with the given counter
+        part. Please note that successfully invoking this endpoint only means that
+        the negotiation was initiated.
+      operationId: initiateEdrNegotiationV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/initiateEdrNegotiationV3_request"
+      responses:
+        "200":
+          description: The negotiation was successfully initiated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdResponse"
+        "400":
+          description: Request body was malformed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+      deprecated: true
   /v3/business-partner-groups:
     put:
       tags:
@@ -1802,36 +1832,6 @@ paths:
                   $ref: "#/components/schemas/ApiErrorDetail_1"
         "409":
           description: An entry already exists for that BPN
-  /v2/edrs:
-    post:
-      tags:
-      - Control Plane EDR Api
-      description: Initiates an EDR negotiation by handling a contract negotiation
-        first and then a transfer process for a given offer and with the given counter
-        part. Please note that successfully invoking this endpoint only means that
-        the negotiation was initiated.
-      operationId: initiateEdrNegotiationV2
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/initiateEdrNegotiationV3_request"
-      responses:
-        "200":
-          description: The negotiation was successfully initiated.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/IdResponse"
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-      deprecated: true
   /check/readiness:
     get:
       tags:
@@ -1875,6 +1875,34 @@ paths:
                   $ref: "#/components/schemas/ApiErrorDetail_1"
         "404":
           description: No entry for the given BPN group was found
+  /v3/contractagreements/request:
+    post:
+      tags:
+      - Contract Agreement V3
+      description: Gets all contract agreements according to a particular query
+      operationId: queryAgreementsV3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuerySpec"
+      responses:
+        "200":
+          description: The contract agreements matching the query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ContractAgreement_1"
+        "400":
+          description: Request body was malformed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
   /v3/policydefinitions/{id}:
     get:
       tags:
@@ -1994,51 +2022,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/contractagreements/request:
-    post:
-      tags:
-      - Contract Agreement V3
-      description: Gets all contract agreements according to a particular query
-      operationId: queryAgreementsV3
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/QuerySpec"
-      responses:
-        "200":
-          description: The contract agreements matching the query
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ContractAgreement_1"
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/catalog/request:
-    post:
-      tags:
-      - Catalog V3
-      operationId: requestCatalogV3
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CatalogRequestV3"
-      responses:
-        default:
-          description: Gets contract offers (=catalog) of a single connector
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CatalogV3"
   /v3/edrs/request:
     post:
       tags:
@@ -2067,6 +2050,23 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
+  /v3/catalog/request:
+    post:
+      tags:
+      - Catalog V3
+      operationId: requestCatalogV3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CatalogRequestV3"
+      responses:
+        default:
+          description: Gets contract offers (=catalog) of a single connector
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CatalogV3"
   /v3/transferprocesses/{id}/terminate:
     post:
       tags:
@@ -2175,6 +2175,34 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/api-error-schema"
+  /v4beta/contractagreements/request:
+    post:
+      tags:
+      - Contract Agreement v4beta
+      description: Gets all contract agreements according to a particular query
+      operationId: queryAgreementsV4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/query-spec-schema"
+      responses:
+        "200":
+          description: The contract agreements matching the query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/contract-agreement-schema"
+        "400":
+          description: Request body was malformed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/api-error-schema"
   /v3/policydefinitions/{id}/evaluationplan:
     post:
       tags:
@@ -2209,34 +2237,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiErrorDetail"
-  /v4beta/contractagreements/request:
-    post:
-      tags:
-      - Contract Agreement v4beta
-      description: Gets all contract agreements according to a particular query
-      operationId: queryAgreementsV4
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/query-spec-schema"
-      responses:
-        "200":
-          description: The contract agreements matching the query
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/contract-agreement-schema"
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/api-error-schema"
   /v4beta/transferprocesses/{id}/deprovision:
     post:
       tags:
@@ -2893,42 +2893,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/policydefinitions:
-    post:
-      tags:
-      - Policy Definition v3
-      description: Creates a new policy definition
-      operationId: createPolicyDefinitionV3
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PolicyDefinitionInputV3"
-      responses:
-        "200":
-          description: policy definition was created successfully. Returns the Policy
-            Definition Id and created timestamp
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/IdResponse"
-        "400":
-          description: Request body was malformed
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-        "409":
-          description: "Could not create policy definition, because a contract definition\
-            \ with that ID already exists"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
   /v3/transferprocesses/{id}/resume:
     post:
       tags:
@@ -2968,35 +2932,42 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
-  /v3/policydefinitions/{id}/validate:
+  /v3/policydefinitions:
     post:
       tags:
       - Policy Definition v3
-      description: "Validates an existing Policy, If the Policy is not found, an error\
-        \ is reported"
-      operationId: validatePolicyDefinitionV3
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
+      description: Creates a new policy definition
+      operationId: createPolicyDefinitionV3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyDefinitionInputV3"
       responses:
         "200":
-          description: Returns the validation result
+          description: policy definition was created successfully. Returns the Policy
+            Definition Id and created timestamp
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PolicyValidationResultSchemaV3"
-        "404":
-          description: "policy definition could not be validated, because it does\
-            \ not exists"
+                $ref: "#/components/schemas/IdResponse"
+        "400":
+          description: Request body was malformed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApiErrorDetail"
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+        "409":
+          description: "Could not create policy definition, because a contract definition\
+            \ with that ID already exists"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
   /v3/contractagreements/{id}/negotiation:
     get:
       tags:
@@ -3034,6 +3005,35 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
+  /v3/policydefinitions/{id}/validate:
+    post:
+      tags:
+      - Policy Definition v3
+      description: "Validates an existing Policy, If the Policy is not found, an error\
+        \ is reported"
+      operationId: validatePolicyDefinitionV3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Returns the validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyValidationResultSchemaV3"
+        "404":
+          description: "policy definition could not be validated, because it does\
+            \ not exists"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiErrorDetail"
   /v4beta/contractdefinitions:
     put:
       tags:
@@ -3219,23 +3219,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/api-error-schema"
-  /v4beta/catalog/dataset/request:
-    post:
-      tags:
-      - Catalog v4beta
-      operationId: getDatasetV4
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/catalog-request-schema"
-      responses:
-        default:
-          description: Gets single dataset from a connector
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/dataset-schema"
   /v3/transferprocesses:
     post:
       tags:
@@ -3271,6 +3254,23 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
+  /v4beta/catalog/dataset/request:
+    post:
+      tags:
+      - Catalog v4beta
+      operationId: getDatasetV4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/catalog-request-schema"
+      responses:
+        default:
+          description: Gets single dataset from a connector
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/dataset-schema"
   /v3/contractnegotiations/{id}:
     get:
       tags:
@@ -3353,6 +3353,45 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ApiErrorDetail"
+  /v3/edrs/{transferProcessId}/refresh:
+    post:
+      tags:
+      - Control Plane EDR Api
+      description: Refreshes and returns the EDR data address with the given transfer
+        process ID
+      operationId: refreshEdrV3
+      parameters:
+      - name: transferProcessId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: The data address
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataAddress"
+        "400":
+          description: "Request was malformed, e.g. id was null"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
+        "404":
+          description: An EDR data address with the given transfer process ID does
+            not exist
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ApiErrorDetail"
   /business-partner-groups/{bpn}:
     get:
       tags:
@@ -3410,45 +3449,6 @@ paths:
         "404":
           description: No entry for the given BPN was found
       deprecated: true
-  /v3/edrs/{transferProcessId}/refresh:
-    post:
-      tags:
-      - Control Plane EDR Api
-      description: Refreshes and returns the EDR data address with the given transfer
-        process ID
-      operationId: refreshEdrV3
-      parameters:
-      - name: transferProcessId
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      responses:
-        "200":
-          description: The data address
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DataAddress"
-        "400":
-          description: "Request was malformed, e.g. id was null"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
-        "404":
-          description: An EDR data address with the given transfer process ID does
-            not exist
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ApiErrorDetail"
   /v3/contractnegotiations/{id}/state:
     get:
       tags:
@@ -3655,40 +3655,6 @@ components:
           type: string
         invalidValue:
           type: string
-    ApiErrorDetail_1:
-      type: object
-      properties:
-        invalidValue:
-          type: object
-        message:
-          type: string
-        path:
-          type: string
-        type:
-          type: string
-      example:
-        path: path
-        message: message
-        type: type
-        invalidValue: "{}"
-    EndpointDataReferenceEntry:
-      type: object
-      properties:
-        '@id':
-          type: string
-        '@type':
-          type: string
-          example: https://w3id.org/edc/v0.0.1/ns/EndpointDataReferenceEntry
-      example:
-        '@context':
-          '@vocab': https://w3id.org/edc/v0.0.1/ns/
-        '@id': transfer-process-id
-        transferProcessId: transfer-process-id
-        agreementId: agreement-id
-        contractNegotiationId: contract-negotiation-id
-        assetId: asset-id
-        providerId: provider-id
-        createdAt: 1688465655
     asset-schema:
       title: AssetSchema
       type: object
@@ -3696,6 +3662,9 @@ components:
         '@type': '@type'
         dataplaneMetadata:
           '@type': '@type'
+          profiles:
+          - profiles
+          - profiles
           properties:
             key: value
           labels:
@@ -3728,9 +3697,7 @@ components:
         '@id':
           type: string
         properties:
-          type: object
-          example:
-            key: value
+          $ref: "#/components/schemas/Asset_properties"
         privateProperties:
           type: object
           example:
@@ -3742,6 +3709,9 @@ components:
       type: object
       example:
         '@type': '@type'
+        profiles:
+        - profiles
+        - profiles
         properties:
           key: value
         labels:
@@ -3764,6 +3734,44 @@ components:
           type: object
           example:
             key: value
+        profiles:
+          type: array
+          items:
+            type: string
+    EndpointDataReferenceEntry:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+          example: https://w3id.org/edc/v0.0.1/ns/EndpointDataReferenceEntry
+      example:
+        '@context':
+          '@vocab': https://w3id.org/edc/v0.0.1/ns/
+        '@id': transfer-process-id
+        transferProcessId: transfer-process-id
+        agreementId: agreement-id
+        contractNegotiationId: contract-negotiation-id
+        assetId: asset-id
+        providerId: provider-id
+        createdAt: 1688465655
+    ApiErrorDetail_1:
+      type: object
+      properties:
+        invalidValue:
+          type: object
+        message:
+          type: string
+        path:
+          type: string
+        type:
+          type: string
+      example:
+        path: path
+        message: message
+        type: type
+        invalidValue: "{}"
     List:
       type: object
       properties:
@@ -4059,6 +4067,56 @@ components:
         permission: []
         prohibition: []
         obligation: []
+    ContractAgreement_1:
+      type: object
+      properties:
+        '@id':
+          type: string
+        '@type':
+          type: string
+          example: https://w3id.org/edc/v0.0.1/ns/ContractAgreement
+        assetId:
+          type: string
+        consumerId:
+          type: string
+        contractSigningDate:
+          type: integer
+          format: int64
+        policy:
+          type: object
+          description: ODRL policy
+          example:
+            '@context': http://www.w3.org/ns/odrl.jsonld
+            '@id': 0949ba30-680c-44e6-bc7d-1688cbe1847e
+            '@type': odrl:Set
+            permission:
+              target: http://example.com/asset:9898.movie
+              action:
+                type: http://www.w3.org/ns/odrl/2/use
+              constraint:
+                leftOperand: https://w3id.org/edc/v0.0.1/ns/left
+                operator: eq
+                rightOperand: value
+            prohibition: []
+            obligation: []
+        providerId:
+          type: string
+      example:
+        '@context':
+          '@vocab': https://w3id.org/edc/v0.0.1/ns/
+        '@type': https://w3id.org/edc/v0.0.1/ns/ContractAgreement
+        '@id': negotiation-id
+        providerId: provider-id
+        consumerId: consumer-id
+        assetId: asset-id
+        contractSigningDate: 1688465655
+        policy:
+          '@context': http://www.w3.org/ns/odrl.jsonld
+          '@type': Set
+          '@id': offer-id
+          permission:
+          - target: asset-id
+            action: display
     ContractDefinitionOutputV3:
       type: object
       properties:
@@ -4136,56 +4194,6 @@ components:
           - transfer.process
           authKey: auth-key
           authCodeId: auth-code-id
-    ContractAgreement_1:
-      type: object
-      properties:
-        '@id':
-          type: string
-        '@type':
-          type: string
-          example: https://w3id.org/edc/v0.0.1/ns/ContractAgreement
-        assetId:
-          type: string
-        consumerId:
-          type: string
-        contractSigningDate:
-          type: integer
-          format: int64
-        policy:
-          type: object
-          description: ODRL policy
-          example:
-            '@context': http://www.w3.org/ns/odrl.jsonld
-            '@id': 0949ba30-680c-44e6-bc7d-1688cbe1847e
-            '@type': odrl:Set
-            permission:
-              target: http://example.com/asset:9898.movie
-              action:
-                type: http://www.w3.org/ns/odrl/2/use
-              constraint:
-                leftOperand: https://w3id.org/edc/v0.0.1/ns/left
-                operator: eq
-                rightOperand: value
-            prohibition: []
-            obligation: []
-        providerId:
-          type: string
-      example:
-        '@context':
-          '@vocab': https://w3id.org/edc/v0.0.1/ns/
-        '@type': https://w3id.org/edc/v0.0.1/ns/ContractAgreement
-        '@id': negotiation-id
-        providerId: provider-id
-        consumerId: consumer-id
-        assetId: asset-id
-        contractSigningDate: 1688465655
-        policy:
-          '@context': http://www.w3.org/ns/odrl.jsonld
-          '@type': Set
-          '@id': offer-id
-          permission:
-          - target: asset-id
-            action: display
     id-response-schema:
       title: IdResponseSchema
       type: object
@@ -4982,6 +4990,9 @@ components:
         assetId: assetId
         dataplaneMetadata:
           '@type': '@type'
+          profiles:
+          - profiles
+          - profiles
           properties:
             key: value
           labels:
@@ -5056,6 +5067,41 @@ components:
           type: string
         dataplaneMetadata:
           $ref: "#/components/schemas/dataplane-metadata-schema"
+    policy-validation-result-schema:
+      title: PolicyValidationResultSchema
+      type: object
+      example:
+        '@type': '@type'
+        isValid: true
+        '@context':
+        - '@context'
+        - '@context'
+        errors:
+        - errors
+        - errors
+      allOf:
+      - $ref: "#/components/schemas/PolicyValidationResult"
+    PolicyValidationResult:
+      required:
+      - '@context'
+      - '@type'
+      - errors
+      - isValid
+      type: object
+      properties:
+        '@context':
+          title: ContextSchema
+          type: array
+          items:
+            type: string
+        '@type':
+          type: string
+        isValid:
+          type: boolean
+        errors:
+          type: array
+          items:
+            type: string
     catalog-schema:
       title: CatalogSchema
       type: object
@@ -5459,41 +5505,6 @@ components:
         querySpec:
           $ref: "#/components/schemas/QuerySpec_1"
       nullable: true
-    policy-validation-result-schema:
-      title: PolicyValidationResultSchema
-      type: object
-      example:
-        '@type': '@type'
-        isValid: true
-        '@context':
-        - '@context'
-        - '@context'
-        errors:
-        - errors
-        - errors
-      allOf:
-      - $ref: "#/components/schemas/PolicyValidationResult"
-    PolicyValidationResult:
-      required:
-      - '@context'
-      - '@type'
-      - errors
-      - isValid
-      type: object
-      properties:
-        '@context':
-          title: ContextSchema
-          type: array
-          items:
-            type: string
-        '@type':
-          type: string
-        isValid:
-          type: boolean
-        errors:
-          type: array
-          items:
-            type: string
     contract-negotiation-schema:
       title: ContractNegotiationSchema
       type: object
@@ -6796,6 +6807,59 @@ components:
         errors:
         - error1
         - error2
+    TransferRequestV3:
+      required:
+      - '@context'
+      - contractId
+      - counterPartyAddress
+      - protocol
+      - transferType
+      type: object
+      properties:
+        '@context':
+          type: object
+        '@type':
+          type: string
+          example: https://w3id.org/edc/v0.0.1/ns/TransferRequest
+        assetId:
+          type: string
+          deprecated: true
+        callbackAddresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/CallbackAddress"
+        contractId:
+          type: string
+        counterPartyAddress:
+          type: string
+        dataDestination:
+          $ref: "#/components/schemas/DataAddress"
+        privateProperties:
+          type: object
+        protocol:
+          type: string
+        transferType:
+          type: string
+      example:
+        '@context':
+          '@vocab': https://w3id.org/edc/v0.0.1/ns/
+        '@type': https://w3id.org/edc/v0.0.1/ns/TransferRequest
+        protocol: dataspace-protocol-http
+        counterPartyAddress: http://provider-address
+        contractId: contract-id
+        transferType: transferType
+        dataDestination:
+          type: data-destination-type
+        privateProperties:
+          private-key: private-value
+        callbackAddresses:
+        - transactional: false
+          uri: http://callback/url
+          events:
+          - contract.negotiation
+          - transfer.process
+          authKey: auth-key
+          authCodeId: auth-code-id
     dataset-schema:
       title: DatasetSchema
       type: object
@@ -7280,59 +7344,6 @@ components:
             $ref: "#/components/schemas/context-schema_1"
         example: null
       example: null
-    TransferRequestV3:
-      required:
-      - '@context'
-      - contractId
-      - counterPartyAddress
-      - protocol
-      - transferType
-      type: object
-      properties:
-        '@context':
-          type: object
-        '@type':
-          type: string
-          example: https://w3id.org/edc/v0.0.1/ns/TransferRequest
-        assetId:
-          type: string
-          deprecated: true
-        callbackAddresses:
-          type: array
-          items:
-            $ref: "#/components/schemas/CallbackAddress"
-        contractId:
-          type: string
-        counterPartyAddress:
-          type: string
-        dataDestination:
-          $ref: "#/components/schemas/DataAddress"
-        privateProperties:
-          type: object
-        protocol:
-          type: string
-        transferType:
-          type: string
-      example:
-        '@context':
-          '@vocab': https://w3id.org/edc/v0.0.1/ns/
-        '@type': https://w3id.org/edc/v0.0.1/ns/TransferRequest
-        protocol: dataspace-protocol-http
-        counterPartyAddress: http://provider-address
-        contractId: contract-id
-        transferType: transferType
-        dataDestination:
-          type: data-destination-type
-        privateProperties:
-          private-key: private-value
-        callbackAddresses:
-        - transactional: false
-          uri: http://callback/url
-          events:
-          - contract.negotiation
-          - transfer.process
-          authKey: auth-key
-          authCodeId: auth-code-id
     NegotiationState_1:
       type: object
       properties:
@@ -7355,6 +7366,13 @@ components:
           - "NULL"
       additionalProperties:
         $ref: "#/components/schemas/ContractRequestV3_1"
+    Asset_properties:
+      type: object
+      properties:
+        conformsTo:
+          type: string
+      example:
+        key: value
     PolicyClass_profile:
       oneOf:
       - type: array
