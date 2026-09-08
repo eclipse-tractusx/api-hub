@@ -7,6 +7,9 @@ info:
 servers:
   - url: http://localhost:8085
     description: Generated server url
+security:
+  - open_id_scheme: []
+  - bearer_scheme: []
 paths:
   /v7/sharing-member-records:
     get:
@@ -26,7 +29,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "0"
             minimum: 0
         - name: size
           in: query
@@ -34,7 +36,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "10"
             maximum: 100
             minimum: 0
       responses:
@@ -464,7 +465,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "0"
             minimum: 0
         - name: size
           in: query
@@ -472,7 +472,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "10"
             maximum: 100
             minimum: 0
       responses:
@@ -507,7 +506,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "0"
             minimum: 0
         - name: size
           in: query
@@ -515,7 +513,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "10"
             maximum: 100
             minimum: 0
       responses:
@@ -550,7 +547,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "0"
             minimum: 0
         - name: size
           in: query
@@ -558,7 +554,6 @@ paths:
           required: false
           schema:
             type: string
-            default: "10"
             maximum: 100
             minimum: 0
       responses:
@@ -572,19 +567,6 @@ paths:
           description: On malformed requests
 components:
   schemas:
-    AdditionalSite:
-      type: object
-      description: "A further site an address belongs to. It carries only what identifies\
-        \ the site, because it is never the subject of the business partner data it\
-        \ appears in: the address it belongs to is the one stated by the surrounding\
-        \ business partner data."
-      properties:
-        bpnReference:
-          $ref: "#/components/schemas/BpnReference"
-        siteName:
-          type:
-            - string
-            - "null"
     AddressGoldenRecordRelation:
       type: object
       description: "A golden record relation between addresses, pointing from a source\
@@ -606,44 +588,34 @@ components:
         geographicCoordinates:
           $ref: "#/components/schemas/GeoCoordinate"
         country:
-          type:
-            - string
-            - "null"
+          type: string
         administrativeAreaLevel1:
-          type:
-            - string
-            - "null"
+          type: string
         postalCode:
-          type:
-            - string
-            - "null"
+          type: string
         city:
-          type:
-            - string
-            - "null"
+          type: string
         deliveryServiceType:
-          type:
-            - string
-            - "null"
+          type: string
           enum:
             - PO_BOX
             - PRIVATE_BAG
             - BOITE_POSTALE
         deliveryServiceQualifier:
-          type:
-            - string
-            - "null"
+          type: string
         deliveryServiceNumber:
-          type:
-            - string
-            - "null"
+          type: string
     AlternativeAddressScriptVariant:
       type: object
       properties:
+        postalCode:
+          type: string
         city:
-          type:
-            - string
-            - "null"
+          type: string
+        deliveryServiceQualifier:
+          type: string
+        deliveryServiceNumber:
+          type: string
     BpnReference:
       type: object
       description: A reference to a BPN for the corresponding business partner data.
@@ -658,17 +630,11 @@ components:
         to rely on BPNs for identification.
       properties:
         referenceValue:
-          type:
-            - string
-            - "null"
+          type: string
         desiredBpn:
-          type:
-            - string
-            - "null"
+          type: string
         referenceType:
-          type:
-            - string
-            - "null"
+          type: string
           enum:
             - Bpn
             - BpnRequestIdentifier
@@ -689,40 +655,17 @@ components:
           items:
             $ref: "#/components/schemas/NamePart"
         owningCompany:
-          type:
-            - string
-            - "null"
+          type: string
         uncategorized:
           $ref: "#/components/schemas/UncategorizedProperties"
         legalEntity:
           $ref: "#/components/schemas/LegalEntity"
         site:
-          oneOf:
-            - $ref: "#/components/schemas/Site"
-            - type: "null"
+          $ref: "#/components/schemas/Site"
         additionalAddress:
-          oneOf:
-            - $ref: "#/components/schemas/PostalAddressWithScriptVariants"
-            - type: "null"
-        additionalSites:
-          type: array
-          description: "The further sites the address of this business partner data\
-            \ belongs to, next to the site in 'site'. Together with 'site' this states\
-            \ the address's complete site membership: a site the address currently\
-            \ belongs to but this field leaves out is unlinked from it. Consolidating\
-            \ the records that share an address into that complete list is the golden\
-            \ record process's responsibility, not the Pool's. An entry that resolves\
-            \ to an existing site links that site to the address; an entry that does\
-            \ not resolve creates a new site with this address as its main address.\
-            \ An already existing site is never updated through this field. A site\
-            \ the address is the main address of cannot be unlinked and has to be\
-            \ stated."
-          items:
-            $ref: "#/components/schemas/AdditionalSite"
+          $ref: "#/components/schemas/PostalAddressWithScriptVariants"
         type:
-          type:
-            - string
-            - "null"
+          type: string
           description: |-
             The recognized golden record type this business partner data contains.
             * `Legal Entity`: The business partner data only contains legal entity and legal address information.
@@ -753,29 +696,21 @@ components:
           items:
             $ref: "#/components/schemas/RelationValidityPeriod"
         reasonCode:
-          type:
-            - string
-            - "null"
+          type: string
     BusinessState:
       type: object
       description: The business state information for the corresponding business partner
       properties:
         validFrom:
-          type:
-            - string
-            - "null"
+          type: string
           format: date-time
           description: Date since when the status is/was valid.
         validTo:
-          type:
-            - string
-            - "null"
+          type: string
           format: date-time
           description: "Date until the status was valid, if applicable."
         type:
-          type:
-            - string
-            - "null"
+          type: string
           description: The type of this specified status.
           enum:
             - ACTIVE
@@ -787,32 +722,20 @@ components:
         written in the matched golden record's confidence criteria.
       properties:
         sharedByOwner:
-          type:
-            - boolean
-            - "null"
+          type: boolean
         checkedByExternalDataSource:
-          type:
-            - boolean
-            - "null"
+          type: boolean
         numberOfSharingMembers:
-          type:
-            - integer
-            - "null"
+          type: integer
           format: int32
         lastConfidenceCheckAt:
-          type:
-            - string
-            - "null"
+          type: string
           format: date-time
         nextConfidenceCheckAt:
-          type:
-            - string
-            - "null"
+          type: string
           format: date-time
         confidenceLevel:
-          type:
-            - integer
-            - "null"
+          type: integer
           format: int32
     Entry:
       type: object
@@ -865,19 +788,13 @@ components:
         \ longitude, and altitude."
       properties:
         longitude:
-          type:
-            - number
-            - "null"
+          type: number
           format: double
         latitude:
-          type:
-            - number
-            - "null"
+          type: number
           format: double
         altitude:
-          type:
-            - number
-            - "null"
+          type: number
           format: double
     Identifier:
       type: object
@@ -885,19 +802,13 @@ components:
         the BPN)
       properties:
         value:
-          type:
-            - string
-            - "null"
+          type: string
           description: Value of the identifier
         type:
-          type:
-            - string
-            - "null"
+          type: string
           description: The type of identifier
         issuingBody:
-          type:
-            - string
-            - "null"
+          type: string
           description: The organisation that issued this identifier
     LegalEntity:
       type: object
@@ -908,17 +819,11 @@ components:
         bpnReference:
           $ref: "#/components/schemas/BpnReference"
         legalName:
-          type:
-            - string
-            - "null"
+          type: string
         legalShortName:
-          type:
-            - string
-            - "null"
+          type: string
         legalForm:
-          type:
-            - string
-            - "null"
+          type: string
         identifiers:
           type: array
           items:
@@ -930,17 +835,7 @@ components:
         confidenceCriteria:
           $ref: "#/components/schemas/ConfidenceCriteria"
         hasChanged:
-          type:
-            - boolean
-            - "null"
-        ownershipUltimate:
-          type:
-            - boolean
-            - "null"
-        ultimateOwnerBpnl:
-          type:
-            - string
-            - "null"
+          type: boolean
         legalAddress:
           $ref: "#/components/schemas/PostalAddress"
         scriptVariants:
@@ -951,15 +846,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LegalEntityGoldenRecordRelation"
-        updatedAt:
-          type:
-            - string
-            - "null"
-          format: date-time
         isParticipantData:
-          type:
-            - boolean
-            - "null"
+          type: boolean
           description: Whether this legal entity is part of the Data Space network
     LegalEntityGoldenRecordRelation:
       type: object
@@ -972,7 +860,6 @@ components:
             - IsAlternativeHeadquarterFor
             - IsManagedBy
             - IsOwnedBy
-            - IsReplacedBy
         sourceBpn:
           type: string
         targetBpn:
@@ -983,13 +870,9 @@ components:
         scriptCode:
           type: string
         legalName:
-          type:
-            - string
-            - "null"
+          type: string
         legalShortName:
-          type:
-            - string
-            - "null"
+          type: string
         legalAddress:
           $ref: "#/components/schemas/PostalAddressScriptVariant"
     NamePart:
@@ -1046,88 +929,56 @@ components:
         geographicCoordinates:
           $ref: "#/components/schemas/GeoCoordinate"
         country:
-          type:
-            - string
-            - "null"
+          type: string
         administrativeAreaLevel1:
-          type:
-            - string
-            - "null"
+          type: string
         administrativeAreaLevel2:
-          type:
-            - string
-            - "null"
+          type: string
         administrativeAreaLevel3:
-          type:
-            - string
-            - "null"
+          type: string
         postalCode:
-          type:
-            - string
-            - "null"
+          type: string
         city:
-          type:
-            - string
-            - "null"
+          type: string
         district:
-          type:
-            - string
-            - "null"
+          type: string
         street:
           $ref: "#/components/schemas/Street"
         companyPostalCode:
-          type:
-            - string
-            - "null"
+          type: string
         industrialZone:
-          type:
-            - string
-            - "null"
+          type: string
         building:
-          type:
-            - string
-            - "null"
+          type: string
         floor:
-          type:
-            - string
-            - "null"
+          type: string
         door:
-          type:
-            - string
-            - "null"
+          type: string
         taxJurisdictionCode:
-          type:
-            - string
-            - "null"
+          type: string
     PhysicalAddressScriptVariant:
       type: object
       properties:
+        postalCode:
+          type: string
         city:
-          type:
-            - string
-            - "null"
+          type: string
         district:
-          type:
-            - string
-            - "null"
+          type: string
         street:
-          $ref: "#/components/schemas/StreetScriptVariant"
+          $ref: "#/components/schemas/Street"
+        companyPostalCode:
+          type: string
         industrialZone:
-          type:
-            - string
-            - "null"
+          type: string
         building:
-          type:
-            - string
-            - "null"
+          type: string
         floor:
-          type:
-            - string
-            - "null"
+          type: string
         door:
-          type:
-            - string
-            - "null"
+          type: string
+        taxJurisdictionCode:
+          type: string
     PostalAddress:
       type: object
       description: "Address information of this business partner data. The address\
@@ -1137,9 +988,7 @@ components:
         bpnReference:
           $ref: "#/components/schemas/BpnReference"
         addressName:
-          type:
-            - string
-            - "null"
+          type: string
           description: The name of this address
         identifiers:
           type: array
@@ -1156,14 +1005,9 @@ components:
         physicalAddress:
           $ref: "#/components/schemas/PhysicalAddress"
         alternativeAddress:
-          type: "null"
-          oneOf:
-            - $ref: "#/components/schemas/AlternativeAddress"
-            - type: "null"
+          $ref: "#/components/schemas/AlternativeAddress"
         hasChanged:
-          type:
-            - boolean
-            - "null"
+          type: boolean
           deprecated: true
           description: Whether this address information differs from its golden record
             counterpart in the Pool.Currently deprecated and ignored by the golden
@@ -1173,37 +1017,26 @@ components:
           description: Golden record relations belonging to this address
           items:
             $ref: "#/components/schemas/AddressGoldenRecordRelation"
-        updatedAt:
-          type:
-            - string
-            - "null"
-          format: date-time
-          description: Timestamp when this address was last updated in the source
-            system
     PostalAddressScriptVariant:
       type: object
       properties:
         addressName:
-          type:
-            - string
-            - "null"
+          type: string
         physicalAddress:
           $ref: "#/components/schemas/PhysicalAddressScriptVariant"
         alternativeAddress:
-          oneOf:
-            - $ref: "#/components/schemas/AlternativeAddressScriptVariant"
-            - type: "null"
+          $ref: "#/components/schemas/AlternativeAddressScriptVariant"
     PostalAddressScriptVariantWithScriptCode:
       type: object
       properties:
         scriptCode:
           type: string
         addressName:
-          type:
-            - string
-            - "null"
+          type: string
         physicalAddress:
           $ref: "#/components/schemas/PhysicalAddressScriptVariant"
+        alternativeAddress:
+          $ref: "#/components/schemas/AlternativeAddressScriptVariant"
     PostalAddressWithScriptVariants:
       type: object
       description: The additional address information of this business partner data.
@@ -1215,9 +1048,7 @@ components:
         bpnReference:
           $ref: "#/components/schemas/BpnReference"
         addressName:
-          type:
-            - string
-            - "null"
+          type: string
           description: The name of this address
         identifiers:
           type: array
@@ -1233,10 +1064,10 @@ components:
           $ref: "#/components/schemas/ConfidenceCriteria"
         physicalAddress:
           $ref: "#/components/schemas/PhysicalAddress"
+        alternativeAddress:
+          $ref: "#/components/schemas/AlternativeAddress"
         hasChanged:
-          type:
-            - boolean
-            - "null"
+          type: boolean
           deprecated: true
           description: Whether this address information differs from its golden record
             counterpart in the Pool.Currently deprecated and ignored by the golden
@@ -1246,21 +1077,10 @@ components:
           description: Golden record relations belonging to this address
           items:
             $ref: "#/components/schemas/AddressGoldenRecordRelation"
-        updatedAt:
-          type:
-            - string
-            - "null"
-          format: date-time
-          description: Timestamp when this address was last updated in the source
-            system
         scriptVariants:
           type: array
           items:
             $ref: "#/components/schemas/PostalAddressScriptVariantWithScriptCode"
-        alternativeAddress:
-          oneOf:
-            - $ref: "#/components/schemas/AlternativeAddress"
-            - type: "null"
     RelationValidityPeriod:
       type: object
       properties:
@@ -1268,9 +1088,7 @@ components:
           type: string
           format: date
         validTo:
-          type:
-            - string
-            - "null"
+          type: string
           format: date
     SharingMemberRecord:
       type: object
@@ -1284,9 +1102,7 @@ components:
           type: string
           format: date-time
         isGoldenRecordCounted:
-          type:
-            - boolean
-            - "null"
+          type: boolean
     SharingMemberRecordUpdateRequest:
       type: object
       properties:
@@ -1302,9 +1118,7 @@ components:
         bpnReference:
           $ref: "#/components/schemas/BpnReference"
         siteName:
-          type:
-            - string
-            - "null"
+          type: string
         states:
           type: array
           items:
@@ -1312,43 +1126,17 @@ components:
         confidenceCriteria:
           $ref: "#/components/schemas/ConfidenceCriteria"
         hasChanged:
-          type:
-            - boolean
-            - "null"
+          type: boolean
         siteMainAddress:
-          oneOf:
-            - $ref: "#/components/schemas/PostalAddress"
-            - type: "null"
+          $ref: "#/components/schemas/PostalAddress"
         scriptVariants:
           type: array
           items:
             $ref: "#/components/schemas/SiteScriptVariant"
-        goldenRecordRelations:
-          type: array
-          items:
-            $ref: "#/components/schemas/SiteGoldenRecordRelation"
-        updatedAt:
-          type:
-            - string
-            - "null"
-          format: date-time
         siteMainIsLegalAddress:
           type: boolean
           description: This site's main address is the legal address of the legal
             entity. The address information therefore is stored in the legal address.
-    SiteGoldenRecordRelation:
-      type: object
-      description: "A golden record relation between sites, pointing from a source\
-        \ BPNS to a target BPNS"
-      properties:
-        relationType:
-          type: string
-          enum:
-            - IsReplacedBy
-        sourceBpn:
-          type: string
-        targetBpn:
-          type: string
     SiteScriptVariant:
       type: object
       properties:
@@ -1364,68 +1152,23 @@ components:
         \ lane, boulevard, highway"
       properties:
         name:
-          type:
-            - string
-            - "null"
+          type: string
         houseNumber:
-          type:
-            - string
-            - "null"
+          type: string
         houseNumberSupplement:
-          type:
-            - string
-            - "null"
+          type: string
         milestone:
-          type:
-            - string
-            - "null"
+          type: string
         direction:
-          type:
-            - string
-            - "null"
+          type: string
         namePrefix:
-          type:
-            - string
-            - "null"
+          type: string
         additionalNamePrefix:
-          type:
-            - string
-            - "null"
+          type: string
         nameSuffix:
-          type:
-            - string
-            - "null"
+          type: string
         additionalNameSuffix:
-          type:
-            - string
-            - "null"
-    StreetScriptVariant:
-      type: object
-      properties:
-        name:
-          type:
-            - string
-            - "null"
-        direction:
-          type:
-            - string
-            - "null"
-        namePrefix:
-          type:
-            - string
-            - "null"
-        additionalNamePrefix:
-          type:
-            - string
-            - "null"
-        nameSuffix:
-          type:
-            - string
-            - "null"
-        additionalNameSuffix:
-          type:
-            - string
-            - "null"
+          type: string
     TaskClientRelationsStateDto:
       type: object
       description: The golden record task's processing state together with optional
@@ -1487,9 +1230,7 @@ components:
       type: object
       properties:
         recordId:
-          type:
-            - string
-            - "null"
+          type: string
           description: The unique identifier for this record which was previously
             issued by the Orchestrator
         businessPartnerRelations:
@@ -1526,9 +1267,7 @@ components:
       type: object
       properties:
         recordId:
-          type:
-            - string
-            - "null"
+          type: string
           description: The unique identifier for this record which was previously
             issued by the Orchestrator
         businessPartner:
@@ -1909,6 +1648,20 @@ components:
           items:
             $ref: "#/components/schemas/BusinessState"
         address:
-          oneOf:
-            - $ref: "#/components/schemas/PostalAddressWithScriptVariants"
-            - type: "null"
+          $ref: "#/components/schemas/PostalAddressWithScriptVariants"
+  securitySchemes:
+    open_id_scheme:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: http://localhost:8180/realms/BPDM/protocol/openid-connect/token
+          scopes: {}
+        authorizationCode:
+          authorizationUrl: http://localhost:8180/realms/BPDM/protocol/openid-connect/auth
+          tokenUrl: http://localhost:8180/realms/BPDM/protocol/openid-connect/token
+          refreshUrl: http://localhost:8180/realms/BPDM/protocol/openid-connect/token
+          scopes: {}
+    bearer_scheme:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
