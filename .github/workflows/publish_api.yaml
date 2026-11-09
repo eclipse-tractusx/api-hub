@@ -34,8 +34,8 @@ jobs:
     outputs:
       specs_exists: ${{ steps.check_specs.outputs.exists }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-go@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: "${{ env.API_COLLECTOR_DIR }}/go.mod"
       - name: Collect OpenAPI specs
@@ -75,7 +75,7 @@ jobs:
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: steps.check_specs.outputs.exists == 'true'
         with:
           name: openapi-${{ steps.collect_specs.outputs.RANDOM }}
@@ -87,7 +87,7 @@ jobs:
     outputs:
       specs: ${{ steps.create_specs_list.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download OpenAPI specs artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -105,7 +105,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.generate_matrix.outputs.specs) }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download OpenAPI specs artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
@@ -123,17 +123,17 @@ jobs:
           echo "PRODUCT_PATH=${PRODUCT_PATH}" >> $GITHUB_OUTPUT
           echo "RANDOM=${RANDOM}" >> $GITHUB_OUTPUT
       - name: Generate Swagger UI
-        uses: Legion2/swagger-ui-action@v1
+        uses: Legion2/swagger-ui-action@eff65dc3f193f0a749872be82f74baa35be0797d # v1.3.0
         with:
           output: ${{ steps.determine_directory.outputs.DIR_PATH }}/swagger-ui
           spec-file: ${{ matrix.specs }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           version: "5.21.0"
       - name: Generate Directory Listings
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
+        uses: jayanta525/github-pages-directory-listing@624ac8c4e56893256d3772f61a88e3b14d54314e # v4.0.0
         with:
           FOLDER: ${{ steps.determine_directory.outputs.DIR_PATH }}
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: swagger-${{ steps.determine_directory.outputs.RANDOM }}
           path: docs
@@ -150,11 +150,11 @@ jobs:
           pattern: swagger-*
           merge-multiple: true
       - name: Generate Directory Listings
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
+        uses: jayanta525/github-pages-directory-listing@624ac8c4e56893256d3772f61a88e3b14d54314e # v4.0.0
         with:
           FOLDER: docs
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           user_name: github-actions[bot]

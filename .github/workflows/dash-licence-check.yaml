@@ -31,12 +31,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Build dash input
         run: cp src/api-collector/go.sum dash-input.sum
       - name: Run dash
         id: run-dash
-        uses: eclipse-tractusx/sig-infra/.github/actions/run-dash@main
+        uses: eclipse-tractusx/sig-infra/.github/actions/run-dash@1a2be9d3b599c081a4a307d8124f33d209f7c54e # main
         with:
           dash_input: "dash-input.sum"
           
